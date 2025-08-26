@@ -1,12 +1,15 @@
 import java.util.Scanner;
 
 public class Alpha {
-    static Scanner scanner = new Scanner(System.in);
+    static Scanner input = new Scanner(System.in);
     public static void main(String[] args) {
         int status = 1;
-        System.out.println("____________________________________________________\n"
-            + "Hello! I'm Alpha\n"
-            + "What can I do for you?\n"
+        System.out.println("____________________________________________________"
+            + System.lineSeparator()
+            + "Hello! I'm Alpha"
+            + System.lineSeparator()
+            + "What can I do for you?"
+            + System.lineSeparator()
             + "____________________________________________________");
         do {
             status = executeCommand();
@@ -14,15 +17,19 @@ public class Alpha {
     }
 
     private static int executeCommand() {
-        String command = scanner.nextLine();
+        String command = input.nextLine();
         if (command.equals("bye")) {
-            System.out.println("____________________________________________________\n"
-                + "Bye. Hope to see you again soon!\n"
+            System.out.println("____________________________________________________"
+                + System.lineSeparator()
+                + "Bye. Hope to see you again soon!"
+                + System.lineSeparator()
                 + "____________________________________________________");
             return 0;
         }
-        System.out.println("____________________________________________________\n"
-            + command + "\n"
+        System.out.println("____________________________________________________"
+            + System.lineSeparator()
+            + command
+            + System.lineSeparator()
             + "____________________________________________________");
         return 1;
     }
