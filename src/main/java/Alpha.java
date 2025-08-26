@@ -2,6 +2,9 @@ import java.util.Scanner;
 
 public class Alpha {
     static Scanner input = new Scanner(System.in);
+    private static String[] taskList = new String[100];
+    private static int taskCount = 0;
+    
     public static void main(String[] args) {
         int status = 1;
         System.out.println("____________________________________________________"
@@ -32,5 +35,15 @@ public class Alpha {
             + System.lineSeparator()
             + "____________________________________________________");
         return 1;
+    }
+
+    private static void addTask(String task, int taskCount) {
+        taskList[taskCount] = task;
+        taskCount++;
+        System.out.println("Got it. I've added this task:"
+            + System.lineSeparator()
+            + "  " + task
+            + System.lineSeparator()
+            + "Now you have " + (taskCount) + " tasks in the list.");
     }
 }
