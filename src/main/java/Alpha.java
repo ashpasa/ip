@@ -21,6 +21,25 @@ public class Alpha {
 
     private static int executeCommand() {
         String command = input.nextLine();
+        if (command.startsWith("mark")) {
+            System.out.println("____________________________________________________"
+                + System.lineSeparator()
+                + "Nice! I've marked this task as done:"
+                + System.lineSeparator());
+            taskList[Integer.parseInt(command.split(" ")[1]) - 1].markAsDone();
+            printTasks(taskList);
+            System.out.println("____________________________________________________");
+            return 1;
+        } else if (command.startsWith("unmark")) {
+            System.out.println("____________________________________________________"
+                + System.lineSeparator()
+                + "Alright, I've marked this task as undone:"
+                + System.lineSeparator());
+            taskList[Integer.parseInt(command.split(" ")[1]) - 1].markAsNotDone();
+            printTasks(taskList);
+            System.out.println("____________________________________________________");
+            return 1;
+        }
         switch (command) {
         case "bye":
             System.out.println("____________________________________________________"
@@ -33,14 +52,11 @@ public class Alpha {
             System.out.println("____________________________________________________"
                 + System.lineSeparator()
                 + "Here are the tasks in your list:");
-            for (int i = 0; i < taskCount; i++) {
-                System.out.println((i + 1) + "." + taskList[i].toString());
-            }
+            printTasks(taskList);
             System.out.println("____________________________________________________");
             return 1;
         default:
-            addTask(command, taskCount);
-            taskCount++;
+            addTask(command);
             System.out.println("____________________________________________________"
                 + System.lineSeparator()
                 + "added: " + command
@@ -50,13 +66,15 @@ public class Alpha {
         }
     }
 
-    private static void addTask(String task, int taskCount) {
+    private static void addTask(String task) {
         taskList[taskCount] = new Task(task);
+        taskList[taskCount].setOrder(taskCount + 1);
         taskCount++;
-        System.out.println("Got it. I've added this task:"
-            + System.lineSeparator()
-            + "  " + task
-            + System.lineSeparator()
-            + "Now you have " + (taskCount) + " tasks in the list.");
+    }
+
+    private static void printTasks(Task[] taskList) {
+        for (int i = 0; i < taskCount; i++) {
+            System.out.println(taskList[i].toString());
+        }
     }
 }
