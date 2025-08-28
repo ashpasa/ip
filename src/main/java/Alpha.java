@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class Alpha {
     static Scanner input = new Scanner(System.in);
-    private static String[] taskList = new String[100];
+    private static Task[] taskList = new Task[100];
     private static int taskCount = 0;
 
     public static void main(String[] args) {
@@ -34,7 +34,7 @@ public class Alpha {
                 + System.lineSeparator()
                 + "Here are the tasks in your list:");
             for (int i = 0; i < taskCount; i++) {
-                System.out.println((i + 1) + ". " + taskList[i]);
+                System.out.println((i + 1) + "." + taskList[i].toString());
             }
             System.out.println("____________________________________________________");
             return 1;
@@ -51,7 +51,7 @@ public class Alpha {
     }
 
     private static void addTask(String task, int taskCount) {
-        taskList[taskCount] = task;
+        taskList[taskCount] = new Task(task);
         taskCount++;
         System.out.println("Got it. I've added this task:"
             + System.lineSeparator()
