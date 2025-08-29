@@ -7,13 +7,11 @@ public class Alpha {
 
     public static void main(String[] args) {
         int status = 1;
-        System.out.println("____________________________________________________"
-            + System.lineSeparator()
+        System.out.println(startDialogue()
             + "Hello! I'm Alpha"
             + System.lineSeparator()
             + "What can I do for you?"
-            + System.lineSeparator()
-            + "____________________________________________________");
+            + endDialogue());
         do {
             status = executeCommand();
         } while (status != 0);
@@ -21,45 +19,36 @@ public class Alpha {
 
     private static int executeCommand() {
         String command = input.nextLine();
+        System.out.print(startDialogue());
         if (command.startsWith("mark")) {
-            System.out.println("____________________________________________________"
-                + System.lineSeparator()
-                + "Nice! I've marked this task as done:"
+            System.out.println("Nice! I've marked this task as done:"
                 + System.lineSeparator());
             taskList[Integer.parseInt(command.split(" ")[1]) - 1].markAsDone();
             printTasks(taskList);
-            System.out.println("____________________________________________________");
+            System.out.println(endDialogue());
             return 1;
         } else if (command.startsWith("unmark")) {
-            System.out.println("____________________________________________________"
-                + System.lineSeparator()
-                + "Alright, I've marked this task as undone:"
+            System.out.println("Alright, I've marked this task as undone:"
                 + System.lineSeparator());
             taskList[Integer.parseInt(command.split(" ")[1]) - 1].markAsNotDone();
             printTasks(taskList);
-            System.out.println("____________________________________________________");
+            System.out.println(endDialogue());
             return 1;
         }
         switch (command) {
         case "bye":
-            System.out.println("____________________________________________________"
-                + System.lineSeparator()
-                + "Bye. Hope to see you again soon!"
+            System.out.println("Bye. Hope to see you again soon!"
                 + System.lineSeparator()
                 + "____________________________________________________");
         return 0;
         case "list":
-            System.out.println("____________________________________________________"
-                + System.lineSeparator()
-                + "Here are the tasks in your list:");
+            System.out.println("Here are the tasks in your list:");
             printTasks(taskList);
             System.out.println("____________________________________________________");
             return 1;
         default:
             addTask(command);
-            System.out.println("____________________________________________________"
-                + System.lineSeparator()
-                + "added: " + command
+            System.out.println("added: " + command
                 + System.lineSeparator()
                 + "____________________________________________________");
             return 1;
@@ -76,5 +65,14 @@ public class Alpha {
         for (int i = 0; i < taskCount; i++) {
             System.out.println(taskList[i].toString());
         }
+    }
+
+    private static String startDialogue() {
+        return "___________________________________________________" + System.lineSeparator()
+            + "==================================================|" + System.lineSeparator();
+    }
+
+    private static String endDialogue() {
+        return System.lineSeparator() + "__________________________________________________|";
     }
 }
