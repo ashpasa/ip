@@ -1,5 +1,7 @@
 import java.util.Scanner;
 
+// TODO: Implement error handling for invalid commands and out of range exceptions
+
 public class Alpha {
     static Scanner input = new Scanner(System.in);
     private static Task[] taskList = new Task[100];
@@ -7,11 +9,10 @@ public class Alpha {
 
     public static void main(String[] args) {
         int status = 1;
-        System.out.println(startDialogue()
-            + "Hello! I'm Alpha"
+        System.out.println(sendMessage("Hello! I'm Alpha"
             + System.lineSeparator()
-            + "What can I do for you?"
-            + endDialogue());
+            + "What can I do for you?")
+            );
         do {
             status = executeCommand();
         } while (status != 0);
@@ -74,5 +75,9 @@ public class Alpha {
 
     private static String endDialogue() {
         return System.lineSeparator() + "__________________________________________________|";
+    }
+
+    private static String sendMessage(String message) {
+        return startDialogue() + message + endDialogue();
     }
 }
