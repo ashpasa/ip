@@ -1,3 +1,13 @@
-public class Deadline {
+public class Deadline extends Task {
+    private String by;
+
+    public Deadline(String description, String by) {
+        super(description);
+        super.type = Tasktypes.DEADLINE;
+        this.by = by;
+    }
     
+    public String toString() {
+        return super.toString() + " (by: " + by + ")";
+    }
 }

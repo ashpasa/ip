@@ -2,6 +2,7 @@ public class Task {
     private String description;
     private boolean isDone;
     private Integer order;
+    protected Tasktypes type;
 
     public Task(String description) {
         this.description = description;
@@ -18,7 +19,26 @@ public class Task {
     }
 
     public String toString() {
-        return Integer.toString(order) + "." + (isDone ? "[X] " : "[ ] ") + description;
+        String typeIndicator = "[ ]";
+        switch (type) {
+        case TODO:
+            typeIndicator = "[T]";
+            break;
+        case DEADLINE:
+            typeIndicator = "[D]";
+            break;
+        case EVENT:
+            typeIndicator = "[E]";
+            break;
+        default:
+            try {
+                throw new Exception("Task type not recognized");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            break;
+        }
+        return Integer.toString(order) + "." + typeIndicator + (isDone ? "[X] " : "[ ] ") + description;
     }
 
     public void setOrder(int order) {

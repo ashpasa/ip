@@ -1,7 +1,5 @@
 import java.util.Scanner;
 
-// TODO: Implement error handling for invalid commands and out of range exceptions
-
 public class Alpha {
     static Scanner input = new Scanner(System.in);
     private static Task[] taskList = new Task[100];
@@ -9,60 +7,93 @@ public class Alpha {
 
     public static void main(String[] args) {
         int status = 1;
-        System.out.println(sendMessage("Hello! I'm Alpha"
-            + System.lineSeparator()
-            + "What can I do for you?")
+        System.out.println(
+            sendMessage("Hello! I'm Alpha" + System.lineSeparator() + "What can I do for you?")
             );
         do {
-            status = executeCommand();
+            status = readCommand();
         } while (status != 0);
     }
 
-    private static int executeCommand() {
+    private static int readCommand() {
         String command = input.nextLine();
-        System.out.print(startDialogue());
-        if (command.startsWith("mark")) {
-            System.out.println("Nice! I've marked this task as done:"
-                + System.lineSeparator());
-            taskList[Integer.parseInt(command.split(" ")[1]) - 1].markAsDone();
-            printTasks(taskList);
-            System.out.println(endDialogue());
-            return 1;
-        } else if (command.startsWith("unmark")) {
-            System.out.println("Alright, I've marked this task as undone:"
-                + System.lineSeparator());
-            taskList[Integer.parseInt(command.split(" ")[1]) - 1].markAsNotDone();
-            printTasks(taskList);
-            System.out.println(endDialogue());
-            return 1;
-        }
-        switch (command) {
-        case "bye":
-            System.out.println("Bye. Hope to see you again soon!"
-                + System.lineSeparator()
-                + "____________________________________________________");
-        return 0;
+        String[] commandWords = command.split(" ", 2);
+        parseCommand(commandWords);
+        return 1;
+    }
+
+    private static void parseCommand(String[] commandWords) {
+        switch (commandWords[0]) {
         case "list":
-            System.out.println("Here are the tasks in your list:");
             printTasks(taskList);
-            System.out.println("____________________________________________________");
-            return 1;
+            break;
+        case "bye":
+            System.out.println(sendMessage("Bye. Hope to see you again soon!"));
+            System.exit(0);
+            break;
+        case "mark":
+            markTask(commandWords[1]);
+            break;
+        case "unmark":
+            unmarkTask(commandWords[1]);
+            break;
+        case "todo":
+            addTask(new Todo(commandWords[1]));
+            break;
+        case "deadline":
+            String description = commandWords[1].split(" /by ")[0];
+            String by = commandWords[1].split(" /by ")[1];
+            addTask(new Deadline(description, by));
+            break;
+        case "event":
+            String desc = commandWords[1].split(" /from ")[0];
+            String startTime = commandWords[1].split(" /from ")[1].split(" /to ")[0];
+            String endTime = commandWords[1].split(" /from ")[1].split(" /to ")[1];
+            addTask(new Event(desc, startTime, endTime));
+            break;
         default:
-            addTask(command);
-            System.out.println("added: " + command
-                + System.lineSeparator()
-                + "____________________________________________________");
-            return 1;
+            sendError();
+            break;
         }
     }
 
-    private static void addTask(String task) {
-        taskList[taskCount] = new Task(task);
+    private static void addTask(Task task) {
+        taskList[taskCount] = task;
         taskList[taskCount].setOrder(taskCount + 1);
+        System.out.println(taskList[taskCount].toString());
         taskCount++;
     }
 
+    private static void markTask(String taskNumber) {
+        int taskNum = Integer.parseInt(taskNumber) - 1;
+        checkBounds(taskNum);
+        taskList[taskNum].markAsDone();
+        System.out.println(sendMessage("Alrighty! This task is now marked complete!:"
+            + System.lineSeparator()
+            + taskList[taskNum].toString()));
+    }
+
+    private static void unmarkTask(String taskNumber) {
+        int taskNum = Integer.parseInt(taskNumber) - 1;
+        checkBounds(taskNum);
+        taskList[taskNum].markAsNotDone();
+        System.out.println(sendMessage("Aww man! I've marked the task as incomplete :( :"
+            + System.lineSeparator()
+            + taskList[taskNum].toString()));
+    }
+
+    private static void checkBounds(int taskNum) {
+        if (taskNum < 0 || taskNum >= taskCount) {
+            System.out.println(sendError());
+            return;
+        }
+    }
+
     private static void printTasks(Task[] taskList) {
+        if (taskCount == 0) {
+            System.out.println(sendMessage("You have no tasks in your list, nice!"));
+            return;
+        }
         for (int i = 0; i < taskCount; i++) {
             System.out.println(taskList[i].toString());
         }
@@ -79,5 +110,24 @@ public class Alpha {
 
     private static String sendMessage(String message) {
         return startDialogue() + message + endDialogue();
+    }
+
+    private static String sendError() {
+        return startDialogue()
+            + "Oops! I'm not sure how to react to that, have an ice cream instead!"
+            + System.lineSeparator()
+            + "         _.-." + System.lineSeparator()
+            + "       ,'/ //\\" + System.lineSeparator()
+            + "      /// // /)" + System.lineSeparator()
+            + "     /// // //|" + System.lineSeparator()
+            + "    /// // ///" + System.lineSeparator()
+            + "   /// // ///" + System.lineSeparator()
+            + "  (`: // ///" + System.lineSeparator()
+            + "   `;`: ///" + System.lineSeparator()
+            + "   / /:`:/" + System.lineSeparator()
+            + "  / /  `'" + System.lineSeparator()
+            + " / /" + System.lineSeparator()
+            + "(_/"
+            + endDialogue();
     }
 }
