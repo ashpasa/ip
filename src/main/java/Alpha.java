@@ -60,7 +60,12 @@ public class Alpha {
     private static void addTask(Task task) {
         taskList[taskCount] = task;
         taskList[taskCount].setOrder(taskCount + 1);
-        System.out.println(taskList[taskCount].toString());
+        System.out.println(
+            sendMessage("Got it. I've added this task:")
+            + System.lineSeparator()
+            + taskList[taskCount].toString()
+            );
+        // System.out.println(taskList[taskCount].toString());
         taskCount++;
     }
 
@@ -90,6 +95,7 @@ public class Alpha {
     }
 
     private static void printTasks(Task[] taskList) {
+        System.out.println(startDialogue() + "Here are the tasks in your list:" + System.lineSeparator());
         if (taskCount == 0) {
             System.out.println(sendMessage("You have no tasks in your list, nice!"));
             return;
@@ -97,6 +103,7 @@ public class Alpha {
         for (int i = 0; i < taskCount; i++) {
             System.out.println(taskList[i].toString());
         }
+        System.out.println(endDialogue());
     }
 
     private static String startDialogue() {
