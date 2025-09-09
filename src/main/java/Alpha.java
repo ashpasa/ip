@@ -6,20 +6,17 @@ public class Alpha {
     private static int taskCount = 0;
 
     public static void main(String[] args) {
-        int status = 1;
-        System.out.println(
-            sendMessage("Hello! I'm Alpha" + System.lineSeparator() + "What can I do for you?")
-            );
-        do {
-            status = readCommand();
-        } while (status != 0);
+        sendWelcomeMessage();
+        while (true) {
+            readCommand();
+        }
     }
 
-    private static int readCommand() {
+    private static void readCommand() {
         String command = input.nextLine();
         String[] commandWords = command.split(" ", 2);
         parseCommand(commandWords);
-        return 1;
+        return;
     }
 
     private static void parseCommand(String[] commandWords) {
@@ -61,9 +58,9 @@ public class Alpha {
         taskList[taskCount] = task;
         taskList[taskCount].setOrder(taskCount + 1);
         System.out.println(
-            sendMessage("Got it. I've added this task:")
+            sendMessage("Got it. I've added this task:"
             + System.lineSeparator()
-            + taskList[taskCount].toString()
+            + taskList[taskCount].toString())
             );
         // System.out.println(taskList[taskCount].toString());
         taskCount++;
@@ -88,7 +85,7 @@ public class Alpha {
     }
 
     private static void checkBounds(int taskNum) {
-        if (taskNum < 0 || taskNum >= taskCount) {
+        if (taskNum <= 0 || taskNum > taskCount) {
             System.out.println(sendError());
             return;
         }
@@ -117,6 +114,21 @@ public class Alpha {
 
     private static String sendMessage(String message) {
         return startDialogue() + message + endDialogue();
+    }
+
+    private static String logo() {
+        return "    _    _       _" + System.lineSeparator()
+            + "   / \\  | |_ __ | |__   __ _ " + System.lineSeparator()
+            + "  / _ \\ | | '_ \\| '_ \\ / _` |" + System.lineSeparator()
+            + " / ___ \\| | |_) | | | | (_| |" + System.lineSeparator()
+            + "/_/   \\_\\_| .__/|_| |_|\\__,_|" + System.lineSeparator()
+            + "          |_|" + System.lineSeparator();
+    }
+
+    private static void sendWelcomeMessage() {
+        System.out.println(
+            sendMessage("Hello! I'm" + System.lineSeparator() + logo() + "What can I do for you?")
+            );
     }
 
     private static String sendError() {

@@ -1,0 +1,13 @@
+todo Find will to live
+deadline Slay dragon /by Friday
+list
+event Attend dragon's funeral /from Sunday 7pm /to Monday 2am
+mark 4
+mark 2
+deadline Find Krabby Patty secret formula /by Plankton's revival
+mark 4
+list
+unmark 2
+todo retrieve Excalibur
+list
+bye
