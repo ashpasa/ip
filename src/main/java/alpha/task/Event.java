@@ -1,3 +1,4 @@
+package alpha.task;
 public class Event extends Task {
     private String startTime;
     private String endTime;

@@ -1,4 +1,6 @@
+package alpha;
 import java.util.Scanner;
+import alpha.task.*;
 
 public class Alpha {
     static Scanner input = new Scanner(System.in);
