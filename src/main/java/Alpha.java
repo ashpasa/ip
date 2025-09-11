@@ -59,6 +59,9 @@ public class Alpha {
         } catch (NullPointerException e) {
             System.out.println(sendError());
             return;
+        } catch (NumberFormatException e) {
+            System.out.println(sendError());
+            return;
         }
     }
 
@@ -73,29 +76,20 @@ public class Alpha {
         taskCount++;
     }
 
-    private static void markTask(String taskNumber) {
+    private static void markTask(String taskNumber) throws ArrayIndexOutOfBoundsException, NullPointerException, NumberFormatException {
         int taskNum = Integer.parseInt(taskNumber) - 1;
-        checkBounds(taskNum);
         taskList[taskNum].markAsDone();
         System.out.println(sendMessage("Alrighty! This task is now marked complete!:"
             + System.lineSeparator()
             + taskList[taskNum].toString()));
     }
 
-    private static void unmarkTask(String taskNumber) {
+    private static void unmarkTask(String taskNumber) throws ArrayIndexOutOfBoundsException, NullPointerException, NumberFormatException {
         int taskNum = Integer.parseInt(taskNumber) - 1;
-        checkBounds(taskNum);
         taskList[taskNum].markAsNotDone();
         System.out.println(sendMessage("Aww man! I've marked the task as incomplete :( :"
             + System.lineSeparator()
             + taskList[taskNum].toString()));
-    }
-
-    private static void checkBounds(int taskNum) {
-        if (taskNum <= 0 || taskNum > taskCount) {
-            System.out.println(sendError());
-            return;
-        }
     }
 
     private static void printTasks(Task[] taskList) {
