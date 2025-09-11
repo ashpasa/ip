@@ -20,37 +20,52 @@ public class Alpha {
     }
 
     private static void parseCommand(String[] commandWords) {
-        switch (commandWords[0]) {
-        case "list":
-            printTasks(taskList);
-            break;
-        case "bye":
-            System.out.println(sendMessage("Bye. Hope to see you again soon!"));
-            System.exit(0);
-            break;
-        case "mark":
-            markTask(commandWords[1]);
-            break;
-        case "unmark":
-            unmarkTask(commandWords[1]);
-            break;
-        case "todo":
-            addTask(new Todo(commandWords[1]));
-            break;
-        case "deadline":
-            String description = commandWords[1].split(" /by ")[0];
-            String by = commandWords[1].split(" /by ")[1];
-            addTask(new Deadline(description, by));
-            break;
-        case "event":
-            String desc = commandWords[1].split(" /from ")[0];
-            String startTime = commandWords[1].split(" /from ")[1].split(" /to ")[0];
-            String endTime = commandWords[1].split(" /from ")[1].split(" /to ")[1];
-            addTask(new Event(desc, startTime, endTime));
-            break;
-        default:
-            sendError();
-            break;
+        try {
+            switch (commandWords[0]) {
+            case "list":
+                printTasks(taskList);
+                break;
+            case "bye":
+                System.out.println(sendMessage("Bye. Hope to see you again soon!"));
+                System.exit(0);
+                break;
+            case "mark":
+                markTask(commandWords[1]);
+                break;
+            case "unmark":
+                unmarkTask(commandWords[1]);
+                break;
+            case "todo":
+                addTask(new Todo(commandWords[1]));
+                break;
+            case "deadline":
+                String description = commandWords[1].split(" /by ")[0];
+                String by = commandWords[1].split(" /by ")[1];
+                addTask(new Deadline(description, by));
+                break;
+            case "event":
+                String desc = commandWords[1].split(" /from ")[0];
+                String startTime = commandWords[1].split(" /from ")[1].split(" /to ")[0];
+                String endTime = commandWords[1].split(" /from ")[1].split(" /to ")[1];
+                addTask(new Event(desc, startTime, endTime));
+                break;
+            default:
+                sendError();
+                break;
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            sendMessage("Hey, are you sure you actually finished typing what you wanted to,"
+                + System.lineSeparator()
+                + "or did you accidentally press 'enter'?");
+            return;
+        } catch (NullPointerException e) {
+            System.out.println(sendError());
+            return;
+        } catch (NumberFormatException e) {
+            sendMessage("Sorry, but the task number has to be an actual number!"
+                + System.lineSeparator()
+                + "Are you sure you didn't make an typo?");
+            return;
         }
     }
 
@@ -62,33 +77,23 @@ public class Alpha {
             + System.lineSeparator()
             + taskList[taskCount].toString())
             );
-        // System.out.println(taskList[taskCount].toString());
         taskCount++;
     }
 
-    private static void markTask(String taskNumber) {
+    private static void markTask(String taskNumber) throws ArrayIndexOutOfBoundsException, NullPointerException, NumberFormatException {
         int taskNum = Integer.parseInt(taskNumber) - 1;
-        checkBounds(taskNum);
         taskList[taskNum].markAsDone();
         System.out.println(sendMessage("Alrighty! This task is now marked complete!:"
             + System.lineSeparator()
             + taskList[taskNum].toString()));
     }
 
-    private static void unmarkTask(String taskNumber) {
+    private static void unmarkTask(String taskNumber) throws ArrayIndexOutOfBoundsException, NullPointerException, NumberFormatException {
         int taskNum = Integer.parseInt(taskNumber) - 1;
-        checkBounds(taskNum);
         taskList[taskNum].markAsNotDone();
         System.out.println(sendMessage("Aww man! I've marked the task as incomplete :( :"
             + System.lineSeparator()
             + taskList[taskNum].toString()));
-    }
-
-    private static void checkBounds(int taskNum) {
-        if (taskNum <= 0 || taskNum > taskCount) {
-            System.out.println(sendError());
-            return;
-        }
     }
 
     private static void printTasks(Task[] taskList) {
@@ -133,7 +138,7 @@ public class Alpha {
 
     private static String sendError() {
         return startDialogue()
-            + "Oops! I'm not sure how to react to that, have an ice cream instead!"
+            + "Sorry! I'm not sure how to react to that, have an ice cream instead!"
             + System.lineSeparator()
             + "         _.-." + System.lineSeparator()
             + "       ,'/ //\\" + System.lineSeparator()
