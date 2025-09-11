@@ -54,13 +54,17 @@ public class Alpha {
                 break;
             }
         } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println(sendError());
+            sendMessage("Hey, are you sure you actually finished typing what you wanted to,"
+                + System.lineSeparator()
+                + "or did you accidentally press 'enter'?");
             return;
         } catch (NullPointerException e) {
             System.out.println(sendError());
             return;
         } catch (NumberFormatException e) {
-            System.out.println(sendError());
+            sendMessage("Sorry, but the task number has to be an actual number!"
+                + System.lineSeparator()
+                + "Are you sure you didn't make an typo?");
             return;
         }
     }
@@ -134,7 +138,7 @@ public class Alpha {
 
     private static String sendError() {
         return startDialogue()
-            + "Oops! I'm not sure how to react to that, have an ice cream instead!"
+            + "Sorry! I'm not sure how to react to that, have an ice cream instead!"
             + System.lineSeparator()
             + "         _.-." + System.lineSeparator()
             + "       ,'/ //\\" + System.lineSeparator()
