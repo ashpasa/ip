@@ -20,37 +20,45 @@ public class Alpha {
     }
 
     private static void parseCommand(String[] commandWords) {
-        switch (commandWords[0]) {
-        case "list":
-            printTasks(taskList);
-            break;
-        case "bye":
-            System.out.println(sendMessage("Bye. Hope to see you again soon!"));
-            System.exit(0);
-            break;
-        case "mark":
-            markTask(commandWords[1]);
-            break;
-        case "unmark":
-            unmarkTask(commandWords[1]);
-            break;
-        case "todo":
-            addTask(new Todo(commandWords[1]));
-            break;
-        case "deadline":
-            String description = commandWords[1].split(" /by ")[0];
-            String by = commandWords[1].split(" /by ")[1];
-            addTask(new Deadline(description, by));
-            break;
-        case "event":
-            String desc = commandWords[1].split(" /from ")[0];
-            String startTime = commandWords[1].split(" /from ")[1].split(" /to ")[0];
-            String endTime = commandWords[1].split(" /from ")[1].split(" /to ")[1];
-            addTask(new Event(desc, startTime, endTime));
-            break;
-        default:
-            sendError();
-            break;
+        try {
+            switch (commandWords[0]) {
+            case "list":
+                printTasks(taskList);
+                break;
+            case "bye":
+                System.out.println(sendMessage("Bye. Hope to see you again soon!"));
+                System.exit(0);
+                break;
+            case "mark":
+                markTask(commandWords[1]);
+                break;
+            case "unmark":
+                unmarkTask(commandWords[1]);
+                break;
+            case "todo":
+                addTask(new Todo(commandWords[1]));
+                break;
+            case "deadline":
+                String description = commandWords[1].split(" /by ")[0];
+                String by = commandWords[1].split(" /by ")[1];
+                addTask(new Deadline(description, by));
+                break;
+            case "event":
+                String desc = commandWords[1].split(" /from ")[0];
+                String startTime = commandWords[1].split(" /from ")[1].split(" /to ")[0];
+                String endTime = commandWords[1].split(" /from ")[1].split(" /to ")[1];
+                addTask(new Event(desc, startTime, endTime));
+                break;
+            default:
+                sendError();
+                break;
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println(sendError());
+            return;
+        } catch (NullPointerException e) {
+            System.out.println(sendError());
+            return;
         }
     }
 
@@ -62,7 +70,6 @@ public class Alpha {
             + System.lineSeparator()
             + taskList[taskCount].toString())
             );
-        // System.out.println(taskList[taskCount].toString());
         taskCount++;
     }
 
