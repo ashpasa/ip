@@ -7,18 +7,17 @@ import tasks.Todo;
 
 public class Alpha {
     static Scanner input = new Scanner(System.in);
-    private static ArrayList<Task> tasks = new ArrayList<>();
-    private static int taskCount = 0;
+    static ArrayList<Task> tasks = new ArrayList<>();
 
     public static void main(String[] args) {
+        String command = input.nextLine();
         sendWelcomeMessage();
         while (true) {
-            readCommand();
+            readCommand(command);
         }
     }
 
-    private static void readCommand() {
-        String command = input.nextLine();
+    private static void readCommand(String command) {
         String[] commandWords = command.split(" ", 2);
         parseCommand(commandWords);
         return;
@@ -76,13 +75,13 @@ public class Alpha {
 
     private static void addTask(Task task) {
         tasks.add(task);
-        tasks.get(taskCount).setOrder(taskCount + 1);
+        int length = tasks.size();
+        tasks.get(length - 1).setOrder(length);
         System.out.println(
             sendMessage("Got it. I've added this task:"
             + System.lineSeparator()
-            + tasks.get(taskCount).toString())
+            + tasks.get(length - 1).toString())
             );
-        taskCount++;
     }
 
     private static void markTask(String taskNumber) throws ArrayIndexOutOfBoundsException, NullPointerException, NumberFormatException {
@@ -103,11 +102,11 @@ public class Alpha {
 
     private static void printTasks(ArrayList<Task> tasks) {
         System.out.println(startDialogue() + "Here are the tasks in your list:" + System.lineSeparator());
-        if (taskCount == 0) {
+        if (tasks.size() == 0) {
             System.out.println(sendMessage("You have no tasks in your list, nice!"));
             return;
         }
-        for (int i = 0; i < taskCount; i++) {
+        for (int i = 0; i < tasks.size(); i++) {
             System.out.println(tasks.get(i).toString());
         }
         System.out.println(endDialogue());
