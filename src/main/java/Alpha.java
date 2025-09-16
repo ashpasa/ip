@@ -1,4 +1,8 @@
 import java.util.Scanner;
+import tasks.Deadline;
+import tasks.Event;
+import tasks.Task;
+import tasks.Todo;
 
 public class Alpha {
     static Scanner input = new Scanner(System.in);
