@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 import tasks.Deadline;
 import tasks.Event;
 import tasks.Task;
@@ -6,7 +7,7 @@ import tasks.Todo;
 
 public class Alpha {
     static Scanner input = new Scanner(System.in);
-    private static Task[] taskList = new Task[100];
+    private static ArrayList<Task> tasks = new ArrayList<>();
     private static int taskCount = 0;
 
     public static void main(String[] args) {
@@ -27,7 +28,7 @@ public class Alpha {
         try {
             switch (commandWords[0]) {
             case "list":
-                printTasks(taskList);
+                printTasks(tasks);
                 break;
             case "bye":
                 System.out.println(sendMessage("Bye. Hope to see you again soon!"));
@@ -74,40 +75,40 @@ public class Alpha {
     }
 
     private static void addTask(Task task) {
-        taskList[taskCount] = task;
-        taskList[taskCount].setOrder(taskCount + 1);
+        tasks.add(task);
+        tasks.get(taskCount).setOrder(taskCount + 1);
         System.out.println(
             sendMessage("Got it. I've added this task:"
             + System.lineSeparator()
-            + taskList[taskCount].toString())
+            + tasks.get(taskCount).toString())
             );
         taskCount++;
     }
 
     private static void markTask(String taskNumber) throws ArrayIndexOutOfBoundsException, NullPointerException, NumberFormatException {
         int taskNum = Integer.parseInt(taskNumber) - 1;
-        taskList[taskNum].markAsDone();
+        tasks.get(taskNum).markAsDone();
         System.out.println(sendMessage("Alrighty! This task is now marked complete!:"
             + System.lineSeparator()
-            + taskList[taskNum].toString()));
+            + tasks.get(taskNum).toString()));
     }
 
     private static void unmarkTask(String taskNumber) throws ArrayIndexOutOfBoundsException, NullPointerException, NumberFormatException {
         int taskNum = Integer.parseInt(taskNumber) - 1;
-        taskList[taskNum].markAsNotDone();
+        tasks.get(taskNum).markAsNotDone();
         System.out.println(sendMessage("Aww man! I've marked the task as incomplete :( :"
             + System.lineSeparator()
-            + taskList[taskNum].toString()));
+            + tasks.get(taskNum).toString()));
     }
 
-    private static void printTasks(Task[] taskList) {
+    private static void printTasks(ArrayList<Task> tasks) {
         System.out.println(startDialogue() + "Here are the tasks in your list:" + System.lineSeparator());
         if (taskCount == 0) {
             System.out.println(sendMessage("You have no tasks in your list, nice!"));
             return;
         }
         for (int i = 0; i < taskCount; i++) {
-            System.out.println(taskList[i].toString());
+            System.out.println(tasks.get(i).toString());
         }
         System.out.println(endDialogue());
     }
