@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 import tasks.Deadline;
 import tasks.Event;
 import tasks.Task;
@@ -6,8 +7,7 @@ import tasks.Todo;
 
 public class Alpha {
     static Scanner input = new Scanner(System.in);
-    private static Task[] taskList = new Task[100];
-    private static int taskCount = 0;
+    static ArrayList<Task> tasks = new ArrayList<>();
 
     public static void main(String[] args) {
         sendWelcomeMessage();
@@ -27,10 +27,10 @@ public class Alpha {
         try {
             switch (commandWords[0]) {
             case "list":
-                printTasks(taskList);
+                printTasks(tasks);
                 break;
             case "bye":
-                System.out.println(sendMessage("Bye. Hope to see you again soon!"));
+                sendMessage("Bye. Hope to see you again soon!");
                 System.exit(0);
                 break;
             case "mark":
@@ -53,6 +53,8 @@ public class Alpha {
                 String endTime = commandWords[1].split(" /from ")[1].split(" /to ")[1];
                 addTask(new Event(desc, startTime, endTime));
                 break;
+            case "delete":
+                deleteTask(commandWords[1]);
             default:
                 sendError();
                 break;
@@ -63,51 +65,68 @@ public class Alpha {
                 + "or did you accidentally press 'enter'?");
             return;
         } catch (NullPointerException e) {
-            System.out.println(sendError());
+            sendError();
             return;
         } catch (NumberFormatException e) {
             sendMessage("Sorry, but the task number has to be an actual number!"
                 + System.lineSeparator()
                 + "Are you sure you didn't make an typo?");
             return;
+        } catch (IndexOutOfBoundsException e) {
+            sendMessage("Hmm, seems like you got the wrong number or something,"
+                + System.lineSeparator()
+                + "are you trying to contact someone? :P");
+            return;
+        } catch (Exception e) {
+            sendError();
+            return;
         }
     }
 
     private static void addTask(Task task) {
-        taskList[taskCount] = task;
-        taskList[taskCount].setOrder(taskCount + 1);
-        System.out.println(
-            sendMessage("Got it. I've added this task:"
+        tasks.add(task);
+        int length = tasks.size();
+        tasks.get(length - 1).setOrder(length);
+        sendMessage("Got it. I've added this task:"
             + System.lineSeparator()
-            + taskList[taskCount].toString())
-            );
-        taskCount++;
+            + tasks.get(length - 1).toString());
     }
 
-    private static void markTask(String taskNumber) throws ArrayIndexOutOfBoundsException, NullPointerException, NumberFormatException {
+    private static void deleteTask(String taskNumber) throws ArrayIndexOutOfBoundsException, NullPointerException, NumberFormatException, IndexOutOfBoundsException {
         int taskNum = Integer.parseInt(taskNumber) - 1;
-        taskList[taskNum].markAsDone();
-        System.out.println(sendMessage("Alrighty! This task is now marked complete!:"
+        Task removedTask = tasks.get(taskNum);
+        tasks.remove(taskNum);
+        sendMessage("Alrighty! This task is gone with the wind:"
             + System.lineSeparator()
-            + taskList[taskNum].toString()));
+            + removedTask.toString()
+            + System.lineSeparator()
+            + "Now you have " + tasks.size() + " tasks in the list.");
     }
 
-    private static void unmarkTask(String taskNumber) throws ArrayIndexOutOfBoundsException, NullPointerException, NumberFormatException {
+    private static void markTask(String taskNumber) throws ArrayIndexOutOfBoundsException, NullPointerException, NumberFormatException, IndexOutOfBoundsException {
         int taskNum = Integer.parseInt(taskNumber) - 1;
-        taskList[taskNum].markAsNotDone();
-        System.out.println(sendMessage("Aww man! I've marked the task as incomplete :( :"
+        tasks.get(taskNum).markAsDone();
+        sendMessage("Yippee! This task is now marked complete!:"
             + System.lineSeparator()
-            + taskList[taskNum].toString()));
+            + tasks.get(taskNum).toString());
     }
 
-    private static void printTasks(Task[] taskList) {
+    private static void unmarkTask(String taskNumber) throws ArrayIndexOutOfBoundsException, NullPointerException, NumberFormatException, IndexOutOfBoundsException {
+        int taskNum = Integer.parseInt(taskNumber) - 1;
+        tasks.get(taskNum).markAsNotDone();
+        sendMessage("Aww man! I've marked the task as incomplete :( :"
+            + System.lineSeparator()
+            + tasks.get(taskNum).toString());
+    }
+
+    private static void printTasks(ArrayList<Task> tasks) {
         System.out.println(startDialogue() + "Here are the tasks in your list:" + System.lineSeparator());
-        if (taskCount == 0) {
-            System.out.println(sendMessage("You have no tasks in your list, nice!"));
+        if (tasks.size() == 0) {
+            System.out.println("You have no tasks in your list, nice!");
             return;
         }
-        for (int i = 0; i < taskCount; i++) {
-            System.out.println(taskList[i].toString());
+        for (int i = 0; i < tasks.size(); i++) {
+            System.out.println(tasks.get(i).toString());
         }
         System.out.println(endDialogue());
     }
@@ -121,8 +140,9 @@ public class Alpha {
         return System.lineSeparator() + "__________________________________________________|";
     }
 
-    private static String sendMessage(String message) {
-        return startDialogue() + message + endDialogue();
+    private static void sendMessage(String message) {
+        System.out.println(startDialogue() + message + endDialogue());
+        // return startDialogue() + message + endDialogue();
     }
 
     private static String logo() {
@@ -135,14 +155,11 @@ public class Alpha {
     }
 
     private static void sendWelcomeMessage() {
-        System.out.println(
-            sendMessage("Hello! I'm" + System.lineSeparator() + logo() + "What can I do for you?")
-            );
+        sendMessage("Hello! I'm" + System.lineSeparator() + logo() + "What can I do for you?");
     }
 
-    private static String sendError() {
-        return startDialogue()
-            + "Sorry! I'm not sure how to react to that, have an ice cream instead!"
+    private static void sendError() {
+        sendMessage("Uh oh! I'm not sure how to react to that, have an ice cream instead!"
             + System.lineSeparator()
             + "         _.-." + System.lineSeparator()
             + "       ,'/ //\\" + System.lineSeparator()
@@ -155,7 +172,6 @@ public class Alpha {
             + "   / /:`:/" + System.lineSeparator()
             + "  / /  `'" + System.lineSeparator()
             + " / /" + System.lineSeparator()
-            + "(_/"
-            + endDialogue();
+            + "(_/");
     }
 }

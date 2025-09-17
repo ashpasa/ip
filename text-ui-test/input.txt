@@ -10,4 +10,13 @@ list
 unmark 2
 todo retrieve Excalibur
 list
+delete 1
+todo Derive the square root of raspberries
+deadline Make an offering to Sol /by the next eclipse
+event Neighbour's goldfish's birthday party /from yesterday /to tomorrow
+blargh
+87954
+delete 9
+delete 2
+list
 bye
