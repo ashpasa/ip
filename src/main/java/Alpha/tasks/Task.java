@@ -40,7 +40,7 @@ public class Task {
             }
             break;
         }
-        return Integer.toString(order) + "." + typeIndicator + (isDone ? "[X] " : "[ ] ") + description;
+        return Integer.toString(order) + "." + typeIndicator + (isDone ? "[X] " : "[O] ") + description;
     }
 
     public void setOrder(int order) {

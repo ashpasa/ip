@@ -1,5 +1,9 @@
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import tasks.Deadline;
 import tasks.Event;
 import tasks.Task;
@@ -10,6 +14,11 @@ public class Alpha {
     static ArrayList<Task> tasks = new ArrayList<>();
 
     public static void main(String[] args) {
+        try {
+            readTasksFromFile("data/taskList.txt");
+        } catch (FileNotFoundException e) {
+            System.out.println("No previous task list found, starting a new one...");
+        }
         sendWelcomeMessage();
         while (true) {
             readCommand();
@@ -90,6 +99,11 @@ public class Alpha {
         sendMessage("Got it. I've added this task:"
             + System.lineSeparator()
             + tasks.get(length - 1).toString());
+        try {
+            writeTasksToFile("data/taskList.txt", tasks);
+        } catch (IOException e) {
+            System.out.println("Error writing to file, please check if file exists.");
+        }
     }
 
     private static void deleteTask(String taskNumber) throws ArrayIndexOutOfBoundsException, NullPointerException, NumberFormatException, IndexOutOfBoundsException {
@@ -173,5 +187,64 @@ public class Alpha {
             + "  / /  `'" + System.lineSeparator()
             + " / /" + System.lineSeparator()
             + "(_/");
+    }
+
+    private static void writeTasksToFile(String filePath, ArrayList<Task> tasks) throws IOException {
+        File f = new File(filePath);
+        try {
+            if (!f.exists()) {
+                f.createNewFile();
+            }
+            try (FileWriter writer = new FileWriter(filePath)) {
+                for (Task task : tasks)
+                    if (task != null) {
+                        writer.write(task.toString() + System.lineSeparator());
+                    }
+                writer.close();
+            }
+        } catch (IOException e) {
+            System.out.println("Error writing to file: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private static void readTasksFromFile(String filePath) throws FileNotFoundException {
+        File f = new File(filePath);
+        Scanner s = new Scanner(f);
+        while (s.hasNext()) {
+            String command = s.nextLine();
+            String[] commandWords = savedTask(command);
+            loadTask(commandWords);
+        }
+        s.close();
+    }
+
+    private static String[] savedTask(String savedTask) {
+        return savedTask.split(" ", 2);
+    }
+
+    private static void loadTask(String[] commandWords) {
+        switch (commandWords[0].charAt(3)) {
+        case 'T':
+            addTask(new Todo(commandWords[1]));
+            break;
+        case 'D':
+            String description = commandWords[1].split(" \\(by: ")[0];
+            String by = commandWords[1].split(" \\(by: ")[1].replace(")","").trim();
+            addTask(new Deadline(description, by));
+            break;
+        case 'E':
+            String desc = commandWords[1].split(" \\(from: ")[0];
+            String startTime = commandWords[1].split(" \\(from: ")[1].split(" to: ")[0];
+            String endTime = commandWords[1].split(" \\(from: ")[1].split(" to: ")[1].replace(")", "").trim();
+            addTask(new Event(desc, startTime, endTime));
+            break;
+        default:
+            sendError();
+            break;
+        }
+        if (commandWords[0].charAt(6) == 'X') {
+            markTask(String.valueOf(commandWords[0].charAt(0)));
+        }
     }
 }
