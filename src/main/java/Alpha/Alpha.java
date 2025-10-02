@@ -64,6 +64,7 @@ public class Alpha {
                 break;
             case "delete":
                 deleteTask(commandWords[1]);
+                break;
             default:
                 sendError();
                 break;
@@ -106,7 +107,7 @@ public class Alpha {
         }
     }
 
-    private static void deleteTask(String taskNumber) throws ArrayIndexOutOfBoundsException, NullPointerException, NumberFormatException, IndexOutOfBoundsException {
+    private static void deleteTask(String taskNumber) throws ArrayIndexOutOfBoundsException, NullPointerException, NumberFormatException, IndexOutOfBoundsException, IOException {
         int taskNum = Integer.parseInt(taskNumber) - 1;
         Task removedTask = tasks.get(taskNum);
         tasks.remove(taskNum);
@@ -115,6 +116,11 @@ public class Alpha {
             + removedTask.toString()
             + System.lineSeparator()
             + "Now you have " + tasks.size() + " tasks in the list.");
+        try {
+            writeTasksToFile("data/taskList.txt", tasks);
+        } catch (IOException e) {
+            System.out.println("Error writing to file, please check if file exists.");
+        }
     }
 
     private static void markTask(String taskNumber) throws ArrayIndexOutOfBoundsException, NullPointerException, NumberFormatException, IndexOutOfBoundsException {
