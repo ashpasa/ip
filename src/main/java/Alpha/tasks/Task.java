@@ -40,4 +40,8 @@ public abstract class Task {
         }
         return typeIndicator + (isDone ? "[X] " : "[O] ") + description;
     }
+
+    public String getDescription() {
+        return description;
+    }
 }
