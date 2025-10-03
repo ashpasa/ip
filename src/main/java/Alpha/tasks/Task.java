@@ -1,15 +1,13 @@
 package tasks;
 
-public class Task {
+public abstract class Task {
     private String description;
     private boolean isDone;
-    // private Integer order;
     protected Tasktypes type;
 
     public Task(String description) {
         this.description = description;
         this.isDone = false;
-        // this.order = 0;
     }
 
     public void markAsDone() {
@@ -41,9 +39,5 @@ public class Task {
             break;
         }
         return typeIndicator + (isDone ? "[X] " : "[O] ") + description;
-    }
-
-    public void setOrder(int order) {
-        // this.order = order;
     }
 }

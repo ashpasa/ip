@@ -12,11 +12,9 @@ public class TaskList {
 
     public void addTask(Ui ui, Task task) {
         this.tasks.add(task);
-        int length = tasks.size();
-        tasks.get(length - 1).setOrder(length);
         ui.sendMessage("Got it. I've added this task:"
             + System.lineSeparator()
-            + tasks.get(length - 1).toString());
+            + task.toString());
     }
 
     public String listTasks() {
