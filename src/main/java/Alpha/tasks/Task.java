@@ -3,13 +3,13 @@ package tasks;
 public class Task {
     private String description;
     private boolean isDone;
-    private Integer order;
+    // private Integer order;
     protected Tasktypes type;
 
     public Task(String description) {
         this.description = description;
         this.isDone = false;
-        this.order = 0;
+        // this.order = 0;
     }
 
     public void markAsDone() {
@@ -40,10 +40,10 @@ public class Task {
             }
             break;
         }
-        return Integer.toString(order) + "." + typeIndicator + (isDone ? "[X] " : "[O] ") + description;
+        return typeIndicator + (isDone ? "[X] " : "[O] ") + description;
     }
 
     public void setOrder(int order) {
-        this.order = order;
+        // this.order = order;
     }
 }
