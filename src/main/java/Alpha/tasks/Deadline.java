@@ -9,6 +9,7 @@ public class Deadline extends Task {
         this.by = by;
     }
     
+    // Converts the task to a string with details on its due date
     public String toString() {
         return super.toString() + " (by: " + by + ")";
     }

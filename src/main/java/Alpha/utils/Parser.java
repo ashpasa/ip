@@ -5,15 +5,19 @@ import tasks.Deadline;
 import tasks.Event;
 
 public final class Parser {
+
+    // Takes in a string and processes it based on the first word
     public static void carryOutCommand(Ui ui, TaskList taskList, Storage storage, String userInput) {
         String[] command = splitCommandKeyword(userInput);
         parseCommand(ui, taskList, storage, command);
     }
 
+    // Splits the input string into an array of 2 strings, with the first word as the first string
     private static String[] splitCommandKeyword(String userInput) {
         return userInput.split(" ", 2);
     }
 
+    // Takes in the input command as an array of strings, and uses the first word of the command to decide programme behaviour
     static void parseCommand(Ui ui, TaskList taskList, Storage storage, String[] command) {
         String commandType = command[0];
         try {
@@ -118,6 +122,7 @@ public final class Parser {
             + taskList.tasks.get(taskNum).toString());
     }
 
+    // Saves all tasks to the storage file
     private static void saveTasks(TaskList taskList, Storage storage) throws IOException {
         try {
             storage.writeTasksToFile(taskList);
@@ -126,6 +131,7 @@ public final class Parser {
         }
     }
 
+    // Searches for all tasks containing the specified string
     private static void findStringInTaskList(Ui ui, TaskList taskList, String specifiedString) {
         String tasksWithString = taskList.listTasksWithString(ui, specifiedString);
         if (tasksWithString == "") {
