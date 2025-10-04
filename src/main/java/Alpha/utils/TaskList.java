@@ -10,6 +10,7 @@ public class TaskList {
         this.tasks = new ArrayList<Task>();
     }
 
+    // Adds an element of type Task to the list, with a success message
     public void addTask(Ui ui, Task task) {
         this.tasks.add(task);
         ui.sendMessage("Got it. I've added this task:"
@@ -17,6 +18,7 @@ public class TaskList {
             + task.toString());
     }
 
+    // creates a list of every stored task in the form of a string
     public String listTasks() {
         String output = "";
         Integer indexOfTask;
@@ -29,6 +31,7 @@ public class TaskList {
         return output;
     }
 
+    // Removes a task from the list
     void deleteTask(Ui ui, String taskNumber) throws ArrayIndexOutOfBoundsException, NullPointerException, NumberFormatException, IndexOutOfBoundsException, IOException {
         int taskNum = Integer.parseInt(taskNumber) - 1;
         Task removedTask = tasks.get(taskNum);
@@ -40,6 +43,7 @@ public class TaskList {
             + "Now you have " + tasks.size() + " tasks in the list.");
     }
 
+    // Takes in a string as input and returns a string out of the tasks that contain the input string
     String listTasksWithString(Ui ui, String specifiedString) {
         String tasksWithString = "";
         for (Task task : tasks) {

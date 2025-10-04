@@ -9,6 +9,7 @@ public class Ui {
         this.userInput = null;
     }
 
+    // Takes in user input and returns it as a string
     public String readCommand() {
         userInput = input.nextLine();
         return userInput;
@@ -30,6 +31,7 @@ public class Ui {
         return startDialogue() + message + endDialogue();
     }
 
+    // Displays a message to the user, wrapped by the dialogue starting and ending indicators
     public void sendMessage(String message) {
         String output = formatMessage(message);
         System.out.println(output);
@@ -44,10 +46,12 @@ public class Ui {
             + "          |_|" + System.lineSeparator();
     }
 
+    // Displays the startup message to the user
     public void sendWelcomeMessage() {
         sendMessage("Hello! I'm" + System.lineSeparator() + logo() + "Happy to see you!");
     }
 
+    // Displays an error message to the user
     public void sendError() {
         sendMessage("Uh oh! I'm not sure how to react to that, have an ice cream instead!"
             + System.lineSeparator()
@@ -65,6 +69,7 @@ public class Ui {
             + "(_/");
     }
 
+    // Displays a list of all currently stored tasks
     public void printTasks(String listOfTasks) {
         if (listOfTasks == "") {
             sendMessage("You have no tasks in your list, nice!");

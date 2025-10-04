@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Storage {
+    // File path of the faile where the task list will be stored as text
     String filePath;
 
     public Storage(String storageFile) {
@@ -16,6 +17,7 @@ public class Storage {
         this.filePath = storageFile;
     }
 
+    // Saves the task list to the storage file by overriding its contents
     public void writeTasksToFile(TaskList taskList) throws IOException {
         File f = new File(filePath);
         try {
@@ -27,11 +29,11 @@ public class Storage {
                 writer.close();
             }
         } catch (IOException e) {
-            System.out.println("Error writing to file: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
+    // Reads the storage file line by line and passes it in to the parser as a command
     public void readTasksFromFile(Ui ui, TaskList taskList) throws FileNotFoundException {
         File f = new File(filePath);
         Scanner s = new Scanner(f);
@@ -43,6 +45,7 @@ public class Storage {
         s.close();
     }
 
+    // Takes in a single line from the storage file and restructures the information into a command string
     String rebuiltCommand(String storedLine) {
         String command = "";
         String fullTaskDetails = storedLine.split(".")[1];
@@ -66,6 +69,7 @@ public class Storage {
         return command;
     }
 
+    // Takes in a line from the storage file and passes a mark command to the parser if necessary
     void checkIfTaskIsMarked(Ui ui, TaskList taskList, String storedLine) {
         String[] splitStoredLine = storedLine.split(".");
         String taskNumber = splitStoredLine[0];
@@ -76,6 +80,7 @@ public class Storage {
         }
     }
 
+    // Returns true if a task is marked
     boolean isMarked(String task) {
         return task.charAt(4) == 'X';
     }

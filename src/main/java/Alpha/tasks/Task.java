@@ -18,6 +18,7 @@ public abstract class Task {
         this.isDone = false;
     }
 
+    // Converts a task to a string, with an indicator of what type of task it is
     public String toString() {
         String typeIndicator = "[ ]";
         switch (type) {
