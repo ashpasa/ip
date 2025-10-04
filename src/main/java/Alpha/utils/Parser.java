@@ -43,6 +43,7 @@ public final class Parser {
                 break;
             case "unmark":
                 unmarkTask(ui, taskList, command[1]);
+                saveTasks(taskList, storage);
                 break;
             case "delete":
                 taskList.deleteTask(ui, command[1]);
