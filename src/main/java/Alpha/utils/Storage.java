@@ -29,7 +29,6 @@ public class Storage {
                 writer.close();
             }
         } catch (IOException e) {
-            System.out.println("Error writing to file: " + e.getMessage());
             e.printStackTrace();
         }
     }
