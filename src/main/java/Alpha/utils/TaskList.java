@@ -19,8 +19,12 @@ public class TaskList {
 
     public String listTasks() {
         String output = "";
+        Integer indexOfTask;
+        String taskNumber;
         for (Task task : tasks) {
-            output += String.valueOf(tasks.indexOf(task) + 1) + "." + task.toString() + System.lineSeparator();
+            indexOfTask = tasks.indexOf(task);
+            taskNumber = String.valueOf(indexOfTask + 1);
+            output += taskNumber + "." + task.toString() + System.lineSeparator();
         }
         return output;
     }
@@ -34,5 +38,17 @@ public class TaskList {
             + removedTask.toString()
             + System.lineSeparator()
             + "Now you have " + tasks.size() + " tasks in the list.");
+    }
+
+    String listTasksWithString(Ui ui, String specifiedString) {
+        String tasksWithString = "";
+        for (Task task : tasks) {
+            if (task.getDescription().contains(specifiedString)) {
+                Integer indexOfTaskWithString = tasks.indexOf(task);
+                String taskNumber = String.valueOf(indexOfTaskWithString + 1);
+                tasksWithString += taskNumber + "." + task.toString() + System.lineSeparator();
+            }
+        }
+        return tasksWithString;
     }
 }

@@ -48,6 +48,9 @@ public final class Parser {
                 taskList.deleteTask(ui, command[1]);
                 saveTasks(taskList, storage);
                 break;
+            case "find":
+                findStringInTaskList(ui, taskList, command[1]);
+                break;
             default:
                 ui.sendError();
                 break;
@@ -120,5 +123,18 @@ public final class Parser {
         } catch (IOException e) {
             System.out.println("Error writing to file... :(");
         }
+    }
+
+    private static void findStringInTaskList(Ui ui, TaskList taskList, String specifiedString) {
+        String tasksWithString = taskList.listTasksWithString(ui, specifiedString);
+        if (tasksWithString == "") {
+            ui.sendMessage("Seems like nothing matches what you're looking for!"
+                + System.lineSeparator()
+                + "Are you sure you're remembering correctly?");
+            return;
+        }
+        ui.sendMessage("Hmm... Looks like the following tasks might have what you're looking for :)"
+            + System.lineSeparator()
+            + tasksWithString);
     }
 }
