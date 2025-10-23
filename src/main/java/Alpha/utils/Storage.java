@@ -68,7 +68,7 @@ public class Storage {
     String rebuiltCommand(String storedLine) {
         String command = "";
         String fullTaskDetails = storedLine.split("\\.")[1];
-        String description = storedLine.split(" ")[1];
+        String description = storedLine.split(" ", 2)[1];
         switch (fullTaskDetails.charAt(1)) {
         case 'T':;
             command += "todo " + description;
