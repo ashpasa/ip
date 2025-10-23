@@ -6,18 +6,34 @@ import tasks.Event;
 
 public final class Parser {
 
-    // Takes in a string and processes it based on the first word
+    /**
+     * Carries out a command based on user input
+     * @param ui UI instance for sending messages
+     * @param taskList The TaskList instance containing the tasks
+     * @param storage The Storage instance for reading/writing tasks to file
+     * @param userInput The full command input by the user as a string
+     */
     public static void carryOutCommand(Ui ui, TaskList taskList, Storage storage, String userInput) {
         String[] command = splitCommandKeyword(userInput);
         parseCommand(ui, taskList, storage, command);
     }
 
-    // Splits the input string into an array of 2 strings, with the first word as the first string
+    /**
+     * Splits the user input into command keyword and details
+     * @param userInput The full command input by the user as a string
+     * @return An array of strings where the first element is the command keyword and the second element is the command details
+     */
     private static String[] splitCommandKeyword(String userInput) {
         return userInput.split(" ", 2);
     }
 
-    // Takes in the input command as an array of strings, and uses the first word of the command to decide programme behaviour
+    /**
+     * Parses and executes the command based on the command keyword
+     * @param ui UI instance for sending messages
+     * @param taskList The TaskList instance containing the tasks
+     * @param storage The Storage instance for reading/writing tasks to file
+     * @param command An array of strings where the first element is the command keyword and the second element is the command details
+     */
     static void parseCommand(Ui ui, TaskList taskList, Storage storage, String[] command) {
         String commandType = command[0];
         try {
@@ -122,7 +138,12 @@ public final class Parser {
             + taskList.tasks.get(taskNum).toString());
     }
 
-    // Saves all tasks to the storage file
+    /**
+     * Saves all tasks in the task list to the storage file
+     * @param taskList The TaskList instance containing the tasks
+     * @param storage The Storage instance for reading/writing tasks to file
+     * @throws IOException
+     */
     private static void saveTasks(TaskList taskList, Storage storage) throws IOException {
         try {
             storage.writeTasksToFile(taskList);
@@ -131,7 +152,12 @@ public final class Parser {
         }
     }
 
-    // Searches for all tasks containing the specified string
+    /**
+     * Lists all tasks that contain a specified string in their description
+     * @param ui UI instance for sending messages
+     * @param taskList The TaskList instance containing the tasks
+     * @param specifiedString The string to search for within the task descriptions
+     */
     private static void findStringInTaskList(Ui ui, TaskList taskList, String specifiedString) {
         String tasksWithString = taskList.listTasksWithString(ui, specifiedString);
         if (tasksWithString == "") {

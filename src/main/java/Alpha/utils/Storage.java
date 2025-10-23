@@ -6,7 +6,9 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Storage {
-    // File path of the faile where the task list will be stored as text
+    /**
+     * File path of the storage file where the task list will be saved
+     */
     String filePath;
 
     public Storage(String storageFile) {
@@ -17,7 +19,11 @@ public class Storage {
         this.filePath = storageFile;
     }
 
-    // Saves the task list to the storage file by overriding its contents
+    /**
+     * Writes the current tasks in the task list to the storage file by overriding its contents
+     * @param taskList The TaskList instance containing the tasks to be saved
+     * @throws IOException
+     */
     public void writeTasksToFile(TaskList taskList) throws IOException {
         File f = new File(filePath);
         try {
@@ -37,7 +43,12 @@ public class Storage {
         }
     }
 
-    // Reads the storage file line by line and passes it in to the parser as a command
+    /**
+     * Reads tasks from the storage file and restores the task list by passing each task as a command to the parser
+     * @param ui UI instance for sending messages
+     * @param taskList The TaskList instance to which the tasks will be added
+     * @throws FileNotFoundException
+     */
     public void readTasksFromFile(Ui ui, TaskList taskList) throws FileNotFoundException {
         File f = new File(filePath);
         Scanner s = new Scanner(f);
@@ -49,7 +60,11 @@ public class Storage {
         s.close();
     }
 
-    // Takes in a single line from the storage file and restructures the information into a command string
+    /**
+     * Rebuilds a command string from a line stored in the storage file
+     * @param storedLine A single line from the storage file representing a stored task
+     * @return A command string that can be processed by the parser to recreate the task
+     */
     String rebuiltCommand(String storedLine) {
         String command = "";
         String fullTaskDetails = storedLine.split(".")[1];
@@ -73,7 +88,12 @@ public class Storage {
         return command;
     }
 
-    // Takes in a line from the storage file and passes a mark command to the parser if necessary
+    /**
+     * Checks if a task from the storage file is marked and sends a mark command to the parser if it is
+     * @param ui UI instance for sending messages
+     * @param taskList The TaskList instance containing the tasks
+     * @param storedLine A single line from the storage file representing a stored task
+     */
     void checkIfTaskIsMarked(Ui ui, TaskList taskList, String storedLine) {
         String[] splitStoredLine = storedLine.split(".");
         String taskNumber = splitStoredLine[0];
@@ -84,7 +104,11 @@ public class Storage {
         }
     }
 
-    // Returns true if a task is marked
+    /**
+     * Determines if a task is marked as completed based on its stored line representation
+     * @param task A single line from the storage file representing a stored task
+     * @return true if the task is marked, false otherwise
+     */
     boolean isMarked(String task) {
         return task.charAt(4) == 'X';
     }

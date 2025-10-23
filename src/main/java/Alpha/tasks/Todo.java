@@ -6,6 +6,9 @@ public class Todo extends Task {
         super.type = Tasktypes.TODO;
     }
 
+    /**
+     * @return String representation of the Todo task.
+     */
     public String toString() {
         return super.toString();
     }

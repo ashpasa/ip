@@ -11,7 +11,9 @@ public class Event extends Task {
         this.endTime = endTime;
     }
     
-    // Converts the task to a string with details of its starting and ending times
+    /**
+     * @return String representation of the event task, with start and end times
+     */
     public String toString() {
         return super.toString() + " (from: " + startTime + " to: " + endTime + ")";
     }

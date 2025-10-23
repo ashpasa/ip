@@ -9,12 +9,17 @@ public class Ui {
         this.userInput = null;
     }
 
-    // Takes in user input and returns it as a string
+    /**
+     * Reads the user input from the command line
+     */
     public String readCommand() {
         userInput = input.nextLine();
         return userInput;
     }
 
+    /**
+     * @return a string signalling the start of dialogue from the chatbot
+     */
     private String startDialogue() {
         return "___________________________________________________________"
             + System.lineSeparator()
@@ -22,16 +27,27 @@ public class Ui {
             + System.lineSeparator();
     }
 
+    /**
+     * @return a string signalling the end of dialogue from the chatbot
+     */
     private String endDialogue() {
         return System.lineSeparator()
             + "__________________________________________________________|";
     }
 
+    /**
+     * Formats a message by wrapping it with the dialogue starting and ending indicators
+     * @param message a string message to be displayed to the user
+     * @return the formatted message wrapped by the dialogue starting and ending indicators
+     */
     private String formatMessage(String message) {
         return startDialogue() + message + endDialogue();
     }
 
-    // Displays a message to the user, wrapped by the dialogue starting and ending indicators
+    /**
+     * Displays a formatted message to the user
+     * @param message a string message to be displayed to the user
+     */
     public void sendMessage(String message) {
         String output = formatMessage(message);
         System.out.println(output);
@@ -69,7 +85,10 @@ public class Ui {
             + "(_/");
     }
 
-    // Displays a list of all currently stored tasks
+    /**
+     * Displays the list of tasks to the user
+     * @param listOfTasks a string representation of the current list of tasks
+     */
     public void printTasks(String listOfTasks) {
         if (listOfTasks == "") {
             sendMessage("You have no tasks in your list, nice!");

@@ -22,6 +22,9 @@ public class Alpha {
         return;
     }
 
+    /**
+     * Runs the Alpha application
+     */
     public void run() {
         ui.sendWelcomeMessage();
         while (true) {
@@ -30,6 +33,9 @@ public class Alpha {
         }
     }
 
+    /**
+     * The main entry point for the Alpha application, initialising the data folder path
+     */
     public static void main(String[] args) {
         new Alpha("data/taskList.txt").run();
     }

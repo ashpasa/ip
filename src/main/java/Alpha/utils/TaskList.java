@@ -10,7 +10,11 @@ public class TaskList {
         this.tasks = new ArrayList<Task>();
     }
 
-    // Adds an element of type Task to the list, with a success message
+    /**
+     * Adds a task to the task list
+     * @param ui UI instance for sending messages
+     * @param task The task to be added to the task list, of type Task
+     */
     public void addTask(Ui ui, Task task) {
         this.tasks.add(task);
         ui.sendMessage("Got it. I've added this task:"
@@ -18,7 +22,9 @@ public class TaskList {
             + task.toString());
     }
 
-    // creates a list of every stored task in the form of a string
+    /**
+     * @return A string representation of all tasks currently in the task list
+     */
     public String listTasks() {
         String output = "";
         Integer indexOfTask;
@@ -32,6 +38,16 @@ public class TaskList {
     }
 
     // Removes a task from the list
+    /**
+     * Removes a task from the task list based on its number in the list
+     * @param ui UI instance for sending messages
+     * @param taskNumber A string representing the number of the task to be deleted, as displayed in the task list
+     * @throws ArrayIndexOutOfBoundsException
+     * @throws NullPointerException
+     * @throws NumberFormatException
+     * @throws IndexOutOfBoundsException
+     * @throws IOException
+     */
     void deleteTask(Ui ui, String taskNumber) throws ArrayIndexOutOfBoundsException, NullPointerException, NumberFormatException, IndexOutOfBoundsException, IOException {
         int taskNum = Integer.parseInt(taskNumber) - 1;
         Task removedTask = tasks.get(taskNum);
@@ -44,6 +60,12 @@ public class TaskList {
     }
 
     // Takes in a string as input and returns a string out of the tasks that contain the input string
+    /**
+     * Lists all tasks that contain a specified string in their description
+     * @param ui UI instance for sending messages
+     * @param specifiedString The string to be searched for within task descriptions
+     * @return A string representation of all tasks containing the specified string
+     */
     String listTasksWithString(Ui ui, String specifiedString) {
         String tasksWithString = "";
         for (Task task : tasks) {
