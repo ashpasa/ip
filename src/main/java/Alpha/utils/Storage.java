@@ -21,6 +21,10 @@ public class Storage {
     public void writeTasksToFile(TaskList taskList) throws IOException {
         File f = new File(filePath);
         try {
+            File parentDir = f.getParentFile();
+            if (!parentDir.exists()) {
+                parentDir.mkdirs();
+            }
             if (!f.exists()) {
                 f.createNewFile();
             }
