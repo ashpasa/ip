@@ -67,7 +67,7 @@ public class Storage {
      */
     String rebuiltCommand(String storedLine) {
         String command = "";
-        String fullTaskDetails = storedLine.split(".")[1];
+        String fullTaskDetails = storedLine.split("\\.")[1];
         String description = storedLine.split(" ")[1];
         switch (fullTaskDetails.charAt(1)) {
         case 'T':;
@@ -95,7 +95,7 @@ public class Storage {
      * @param storedLine A single line from the storage file representing a stored task
      */
     void checkIfTaskIsMarked(Ui ui, TaskList taskList, String storedLine) {
-        String[] splitStoredLine = storedLine.split(".");
+        String[] splitStoredLine = storedLine.split("\\.");
         String taskNumber = splitStoredLine[0];
         String taskDetails = splitStoredLine[1];
         if (isMarked(taskDetails)) {
